@@ -21,7 +21,6 @@ func main() {
 		fmt.Println("1. Pokecat")
 		fmt.Println("2. Pokebat")
 		fmt.Println("3. Exit")
-		fmt.Println("4. Create a new account")
 		fmt.Print("Enter your choice: ")
 
 		var choice int
