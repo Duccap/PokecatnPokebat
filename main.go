@@ -46,6 +46,7 @@ func main() {
 		case 2:
 			fmt.Println("Launching Pokebat...")
 			cmd := exec.Command("go", "run", "pokebat/clients.go")
+			cmd.Stdin = os.Stdin
 			cmd.Stdout = os.Stdout
 			cmd.Stderr = os.Stderr
 
