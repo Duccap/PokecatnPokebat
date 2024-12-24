@@ -296,22 +296,27 @@ func startBattle(firstPlayer, secondPlayer *Player) {
 
             switch strings.TrimSpace(string(choice[:n])) {
             case "1":
-                element := player.Active.Types[0]
-                damage, attackType := calculateDamage(player.Active, secondPlayer.Active, element)
-                secondPlayer.Active.Stats.HP -= damage
-
-                player.Conn.Write([]byte(fmt.Sprintf("You used a %s attack! Damage dealt: %d\n", attackType, damage)))
-                secondPlayer.Conn.Write([]byte(fmt.Sprintf("You received a %s attack! Damage taken: %d\n", attackType, damage)))
-
-                if secondPlayer.Active.Stats.HP <= 0 {
-                    secondPlayer.Conn.Write([]byte("Your Pokémon fainted!\n"))
-                    if allPokemonFainted(secondPlayer) {
-                        player.Conn.Write([]byte("You win!\n"))
-                        secondPlayer.Conn.Write([]byte("You lose!\n"))
-                        return
-                    }
-                    switchPokemon(secondPlayer)
-                }
+				element := player.Active.Types[0]
+				damage, attackType := calculateDamage(player.Active, secondPlayer.Active, element)
+				secondPlayer.Active.Stats.HP -= damage
+			
+				player.Conn.Write([]byte(fmt.Sprintf("You used a %s attack! Damage dealt: %d\n", attackType, damage)))
+				secondPlayer.Conn.Write([]byte(fmt.Sprintf("You received a %s attack! Damage taken: %d\n", attackType, damage)))
+			
+				// Print remaining HP for both players
+				player.Conn.Write([]byte(fmt.Sprintf("Opponent's Pokémon HP left: %d\n", secondPlayer.Active.Stats.HP)))
+				secondPlayer.Conn.Write([]byte(fmt.Sprintf("Your Pokémon HP left: %d\n", secondPlayer.Active.Stats.HP)))
+			
+				if secondPlayer.Active.Stats.HP <= 0 {
+					secondPlayer.Conn.Write([]byte("Your Pokémon fainted!\n"))
+					if allPokemonFainted(secondPlayer) {
+						player.Conn.Write([]byte("You win!\n"))
+						secondPlayer.Conn.Write([]byte("You lose!\n"))
+						return
+					}
+					switchPokemon(secondPlayer)
+				}
+			
             case "2":
                 switchPokemon(player)
             default:

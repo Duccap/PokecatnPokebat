@@ -4,9 +4,6 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"log"
-	"bufio"
-	"encoding/json"
 )
 
 type Account struct{
